@@ -1,0 +1,28 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: wx-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/buy?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 12345678
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:  #指定Mybatis全局配置文件中的相关配置项
+    map-underscore-to-camel-case: on  #驼峰命名
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.zust.buy.wxpreorder
+
+weixin:
+  jscode2sessionUrl: https://api.weixin.qq.com/sns/jscode2session
+  appId: wx3d199279cb3da01f
+  secret: 544545d222d5c8bb9521f6013d06a8cc
+

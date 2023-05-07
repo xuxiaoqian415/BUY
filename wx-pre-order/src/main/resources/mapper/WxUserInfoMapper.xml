@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zust.buy.wxpreorder.mapper.WxUserInfoMapper">
+
+    <select id="getByOpenId" parameterType="String" resultType="com.zust.buy.common.entity.WxUserInfo">
+        select *
+        from t_wx_user_info
+        where open_id = #{openId};
+    </select>
+
+</mapper>

@@ -1,0 +1,43 @@
+server:
+  port: 9500
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:8080,http://192.168.0.104:8080,"
+            allowCredentials: true
+            allowedMethods: "POST,GET"
+            allowedHeaders: "*"
+      routes:
+        - id: user-route
+          uri: lb://user-service
+          order: 1
+          predicates:
+            - Path=/user-serv/**
+          filters:
+            - StripPrefix=1
+        - id: order-route
+          uri: lb://order-service
+          order: 1
+          predicates:
+            - Path=/order-serv/**
+          filters:
+            - StripPrefix=1
+        - id: good-route
+          uri: lb://good-service
+          order: 1
+          predicates:
+            - Path=/good-serv/**
+          filters:
+            - StripPrefix=1
