@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zust.buy.common.entity.Product;
 import com.zust.buy.common.entity.ProductSwiperImage;
-import com.zust.buy.common.entity.ResponseData;
 import com.zust.buy.good.service.IProductService;
 import com.zust.buy.good.service.IProductSwiperService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -57,6 +57,9 @@ public class ProductController {
     @RequestMapping("/detail/{id}")
     public Product getDetailById(@PathVariable("id") Integer id) {
         Product product = productService.getById(id);
+        String steps = product.getSteps();
+        String s = new String(steps.getBytes(StandardCharsets.US_ASCII), StandardCharsets.UTF_8);
+
         List<ProductSwiperImage> swiperImageList = productSwiperService.list(new QueryWrapper<ProductSwiperImage>()
                 .eq("productId", id)
                 .orderByAsc("sort"));

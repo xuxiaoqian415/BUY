@@ -10,6 +10,7 @@ import com.zust.buy.common.entity.Order;
 import com.zust.buy.common.entity.OrderDetail;
 import com.zust.buy.order.service.IOrderDetailService;
 import com.zust.buy.order.service.IOrderService;
+import com.zust.buy.order.service.IPurchaseOrderService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,8 @@ public class OrderController {
     private IOrderService orderService;
     @Autowired
     private IOrderDetailService orderDetailService;
+    @Autowired
+    private IPurchaseOrderService purchaseOrderService;
 
     @ResponseBody
     @RequestMapping("/create")
@@ -46,14 +49,9 @@ public class OrderController {
         }
         String openId = claims.getId();
         order.setUserId(openId);
-        order.setOrderNo(DateUtil.getCurrentDateStr());
-        orderService.save(order);
-        OrderDetail[] goods = order.getGoods();
-        for (OrderDetail good: goods) {
-            good.setMainId(order.getId());
-            orderDetailService.save(good);
-        }
-        return order.getOrderNo();
+        String orderNo = orderService.createUserOrder(order);
+        purchaseOrderService.createPurchaseOrder(order);
+        return orderNo;
     }
 
     @ResponseBody

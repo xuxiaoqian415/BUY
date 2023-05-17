@@ -1,43 +1,40 @@
 package com.zust.buy.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.zust.buy.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 大类表
+ * 菜品食材关系表
  * </p>
  *
  * @author xuxiaoqian
- * @since 2023-04-15
+ * @since 2023-05-15
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("t_big_type")
-public class BigType extends BaseEntity {
+@TableName("t_product_ingredient")
+public class ProductIngredient extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 名称
-     */
-    private String name;
+    private Integer productId;
+
+    private Integer ingredientId;
 
     /**
-     * 描述
+     * 一份菜品对应的食材数量
      */
-    private String remark;
+    private Integer number;
 
-    /**
-     * 首图
-     */
-    private String image = "default.jpg";
+
 }

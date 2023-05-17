@@ -51,7 +51,12 @@ public class Product extends BaseEntity {
      * 产品图片
      */
     @TableField("proPic")
-    private String proPic = "default.jpg";
+    private String proPic;
+
+    /**
+     * 菜品描述
+     */
+    private String description;
 
     /**
      * 是否热卖 0-否 1-是
@@ -63,13 +68,13 @@ public class Product extends BaseEntity {
      * 是否轮播 0-否 1-是
      */
     @TableField("isSwiper")
-    private String isSwiper;
+    private Boolean isSwiper;
 
     /**
      * 首页轮播图地址
      */
     @TableField("swiperPic")
-    private String swiperPic = "default.jpg";
+    private String swiperPic;
 
     /**
      * 轮播排序
@@ -84,6 +89,12 @@ public class Product extends BaseEntity {
     private Integer typeId;
 
     /**
+     * 所属小类名称
+     */
+    @TableField(exist = false)
+    private String typeName;
+
+    /**
      * 热卖时间
      */
     @TableField("hotDateTime")
@@ -93,14 +104,14 @@ public class Product extends BaseEntity {
     private Date hotDateTime;
 
     /**
-     * 配料
+     * 配料文本描述
      */
     private String ingredient;
 
     /**
-     * 描述
+     * 步骤
      */
-    private String description;
+    private String steps;
 
     /**
      * 详情页轮播图集合

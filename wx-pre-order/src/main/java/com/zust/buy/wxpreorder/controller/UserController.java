@@ -62,6 +62,8 @@ public class UserController {
             userInfo.setNickName(wxUserInfo.getNickName());
             userInfo.setAvatarUrl(wxUserInfo.getAvatarUrl());
             userInfo.setLastLoginDate(new Date());
+            userInfo.setCreateTime(null);
+            userInfo.setUpdateTime(null);
             wxUserInfoService.updateById(userInfo);
         }
         // 用JWT生成token返回前端

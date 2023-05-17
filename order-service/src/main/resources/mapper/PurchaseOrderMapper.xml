@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zust.buy.order.mapper.PurchaseOrderMapper">
+
+    <select id="getPurchaseData" resultType="com.zust.buy.common.entity.PurchaseOrder">
+        SELECT pi.ingredient_id, od.main_id as order_id, od.good_num * pi.number as total_num
+        FROM t_order_detail od
+                 LEFT JOIN t_product_ingredient pi ON od.good_id = pi.product_id
+                 LEFT JOIN t_ingredient i ON pi.ingredient_id = i.id
+                 LEFT JOIN t_order o ON od.main_id = o.id
+        WHERE od.main_id = #{orderId}
+          <if test="dressing == false">
+              AND i.is_dressing = '0'
+          </if>
+    </select>
+
+</mapper>

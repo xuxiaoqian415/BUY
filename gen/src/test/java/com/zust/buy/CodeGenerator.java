@@ -46,7 +46,7 @@ public class CodeGenerator {
         // 3、包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.zust.buy");
-        pc.setModuleName("new");
+        pc.setModuleName("common");
         pc.setEntity("entity");
         pc.setMapper("mapper");
         pc.setService("service");
@@ -55,7 +55,7 @@ public class CodeGenerator {
 
         // 4、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("t_order");// 设置要映射的表名
+        strategy.setInclude("t_purchase_order");// 设置要映射的表名
         strategy.setTablePrefix("t_");
         strategy.setNaming(NamingStrategy.underline_to_camel);// 下划线转驼峰命名
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);

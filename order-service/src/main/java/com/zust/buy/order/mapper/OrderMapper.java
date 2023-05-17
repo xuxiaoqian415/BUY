@@ -20,4 +20,6 @@ public interface OrderMapper extends BaseMapper<Order> {
 
     List<Order> getOrderList(Map<String, Object> params);
 
+    Integer getTotal(Map<String, Object> params);
+
 }

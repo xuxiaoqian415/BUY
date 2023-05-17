@@ -16,6 +16,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface WxUserInfoMapper extends BaseMapper<WxUserInfo> {
 
-    WxUserInfo getByOpenId(String openId);
+    WxUserInfo getByOpenId(@Param("openId") String openId);
 
 }

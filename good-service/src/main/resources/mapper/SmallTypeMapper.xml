@@ -2,4 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zust.buy.good.mapper.SmallTypeMapper">
 
+    <select id="getSmallTypeList" parameterType="java.util.Map" resultType="com.zust.buy.common.entity.SmallType">
+        SELECT st.*, bt.`name` as bigTypeName
+        FROM t_small_type st LEFT JOIN t_big_type bt ON st.big_type_id = bt.id
+        <where>
+            st.deleted = 0
+            <if test="name != null and name != ''">
+                and st.name LIKE concat('%', #{name}, '%')
+            </if>
+            <if test="bigTypeId != null and bigTypeId != 0">
+                and st.big_type_id = #{bigTypeId}
+            </if>
+        </where>
+        order by st.create_time desc
+        <if test="start != null and pageSize != null">
+            limit #{start}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getTotal" parameterType="java.util.Map" resultType="int">
+        select count(*)
+        from t_small_type st
+        <where>
+            st.deleted = 0
+            <if test="name != null and name != ''">
+                and st.name LIKE #{name}
+            </if>
+            <if test="bigTypeId != null and bigTypeId != 0">
+                and st.big_type_id = #{bigTypeId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -1,6 +1,8 @@
 package com.zust.buy.common.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,26 +26,32 @@ public class SmallType extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     private String name;
 
     private String remark;
 
-    @TableField("bigTypeId")
+    @TableField("big_type_id")
     private Integer bigTypeId;
 
     /**
      * 所属大类
      */
-    @TableField(select = false)
+    @TableField(exist = false, select = false)
     private BigType bigType;
 
     /**
      * 商品集合
      */
-    @TableField(select = false)
+    @TableField(exist = false, select = false)
     private List<Product> productList;
 
+    /**
+     * 所属大类名称
+     */
+    @TableField(exist = false, select = false)
+    private String bigTypeName;
 
 }

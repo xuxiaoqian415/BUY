@@ -1,14 +1,14 @@
 package com.zust.buy.order.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zust.buy.common.entity.OrderDetail;
 import com.zust.buy.common.entity.PageBean;
 import com.zust.buy.common.entity.ResponseData;
 import com.zust.buy.common.entity.Order;
+import com.zust.buy.order.service.IOrderDetailService;
 import com.zust.buy.order.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +28,8 @@ public class AdminOrderController {
 
     @Autowired
     private IOrderService orderService;
+    @Autowired
+    private IOrderDetailService orderDetailService;
 
     /**
      * 根据条件分页查询订单
@@ -40,12 +42,34 @@ public class AdminOrderController {
         params.put("orderNo", pageBean.getQuery());
         params.put("start", pageBean.getStart());
         params.put("pageSize", pageBean.getPageSize());
-        List<Order> orderList = orderService.getOrderList(params);
-        System.out.println(orderList);
-        Map<String, Object> result = new HashMap<>();
-        result.put("orderList", orderList);
-        result.put("total", 1);
+        Map<String, Object> result = orderService.getOrderList(params);
         return ResponseData.ok(result);
     }
+
+    @PostMapping("/update/status")
+    public ResponseData updateStatus(@RequestBody Order data) {
+        Order order = orderService.getById(data.getId());
+        order.setStatus(data.getStatus());
+        order.setCreateTime(null);
+        order.setUpdateTime(null);
+        orderService.updateById(order);
+        return ResponseData.ok();
+    }
+
+    @RequestMapping("/delete/{id}")
+    public ResponseData delete(@PathVariable("id") Integer id) {
+        Order entity = new Order();
+        entity.setId(id);
+        entity.setDeleted(1);
+        orderService.updateById(entity);
+        return ResponseData.ok();
+    }
+
+    @RequestMapping("/detail/list/{id}")
+    public ResponseData getDetailList(@PathVariable("id") Integer id) {
+        List<OrderDetail> detailList = orderDetailService.list(new QueryWrapper<OrderDetail>().eq("main_id", id));
+        return ResponseData.ok(detailList);
+    }
+
 }
 

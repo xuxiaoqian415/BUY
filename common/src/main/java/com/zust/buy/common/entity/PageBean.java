@@ -1,8 +1,11 @@
 package com.zust.buy.common.entity;
 
+import lombok.Data;
+
 /**
  * 分页 Model类
  */
+@Data
 public class PageBean {
 
     /**
@@ -25,6 +28,16 @@ public class PageBean {
      */
     private String query;
 
+    /**
+     * 大类ID
+     */
+    private Integer bigTypeId;
+
+    /**
+     * 商品类别ID
+     */
+    private Integer typeId;
+
     public PageBean() {
     }
 
@@ -40,31 +53,8 @@ public class PageBean {
         this.pageSize = pageSize;
     }
 
-    public int getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
     public int getStart() {
         return (pageNum-1)*pageSize;
     }
 
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
 }

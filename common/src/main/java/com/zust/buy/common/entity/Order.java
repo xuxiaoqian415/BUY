@@ -79,7 +79,14 @@ public class Order extends BaseEntity {
     private Date payDate;
 
     /**
-     * 订单状态 1-未支付 2-已支付/待收货 3-退货/退款
+     * 预订配送日期
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date deliveryDate;
+
+    /**
+     * 订单状态 1-未支付 2-已支付/待发货 3-已发货
      */
     private String status;
 
@@ -88,5 +95,11 @@ public class Order extends BaseEntity {
      */
     @TableField(select = false, exist = false)
     private OrderDetail[] goods;
+
+    /**
+     * 是否需要调料
+     */
+    @TableField(select = false, exist = false)
+    private Boolean dressing;
 
 }

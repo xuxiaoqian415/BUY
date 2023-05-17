@@ -41,3 +41,11 @@ spring:
             - Path=/good-serv/**
           filters:
             - StripPrefix=1
+        - id: image-route
+          uri: lb://good-service
+          order: 1
+          predicates:
+            - Path=/image/**
+          filters:
+            - StripPrefix=1
+

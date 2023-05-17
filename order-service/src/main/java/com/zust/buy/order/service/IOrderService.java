@@ -16,6 +16,9 @@ import java.util.Map;
  */
 public interface IOrderService extends IService<Order> {
 
-    List<Order> getOrderList(Map<String, Object> params);
+    Map<String, Object> getOrderList(Map<String, Object> params);
+
+    String createUserOrder(Order order);
+
 
 }
