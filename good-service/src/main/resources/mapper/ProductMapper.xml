@@ -13,9 +13,20 @@
             <if test="typeId != null and typeId != 0">
                 and p.typeId = #{typeId}
             </if>
+            <if test="isSwiper != null and isSwiper != ''">
+                and p.isSwiper = #{isSwiper}
+            </if>
         </where>
-        order by p.create_time desc
-        <if test="start != null and pageSize != null">
+        order by
+        <choose>
+            <when test="isSwiper != null and isSwiper != ''">
+                p.swiperSort asc
+            </when>
+            <otherwise>
+                p.create_time desc
+            </otherwise>
+        </choose>
+        <if test="start != null and start != 0 and pageSize != null and pageSize != 0">
             limit #{start}, #{pageSize}
         </if>
     </select>
@@ -30,6 +41,9 @@
             </if>
             <if test="typeId != null and typeId != 0">
                 and p.typeId = #{typeId}
+            </if>
+            <if test="isSwiper != null and isSwiper != ''">
+                and p.isSwiper = #{isSwiper}
             </if>
         </where>
     </select>

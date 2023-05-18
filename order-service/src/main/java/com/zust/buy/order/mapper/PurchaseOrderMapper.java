@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -19,4 +20,11 @@ import java.util.List;
 public interface PurchaseOrderMapper extends BaseMapper<PurchaseOrder> {
 
     List<PurchaseOrder> getPurchaseData(@Param("orderId") Integer orderId, @Param("dressing") Boolean dressing);
+
+    List<PurchaseOrder> getPurchaseList(Map<String, Object> params);
+
+    Integer getTotal(Map<String, Object> params);
+
+    List<PurchaseOrder> getListByDate(@Param("date") String date);
+
 }

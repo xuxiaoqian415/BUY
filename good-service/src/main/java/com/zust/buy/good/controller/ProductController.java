@@ -47,7 +47,7 @@ public class ProductController {
     public List<Product> getHot() {
         Page<Product> page = new Page<>(0, 4);
         IPage<Product> pageProduct = productService.page(page, new QueryWrapper<Product>()
-                .eq("isHot", "1")
+                .eq("isHot", "1").eq("deleted", 0)
                 .orderByDesc("hotDateTime"));
         List<Product> list = pageProduct.getRecords();
         return list;
@@ -61,7 +61,7 @@ public class ProductController {
         String s = new String(steps.getBytes(StandardCharsets.US_ASCII), StandardCharsets.UTF_8);
 
         List<ProductSwiperImage> swiperImageList = productSwiperService.list(new QueryWrapper<ProductSwiperImage>()
-                .eq("productId", id)
+                .eq("productId", id).eq("deleted", 0)
                 .orderByAsc("sort"));
         product.setSwiperImageList(swiperImageList);
         return product;

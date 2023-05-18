@@ -1,5 +1,6 @@
 package com.zust.buy.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -45,7 +46,7 @@ public class Ingredient extends BaseEntity {
     /**
      * 是否是调味料 0-不是 1-是
      */
-    private String isDressing;
+    private Boolean isDressing;
 
 
 }

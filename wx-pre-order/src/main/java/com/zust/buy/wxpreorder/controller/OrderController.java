@@ -1,16 +1,14 @@
 package com.zust.buy.wxpreorder.controller;
 
 import com.zust.buy.common.entity.Order;
+import com.zust.buy.common.entity.OrderDetail;
 import com.zust.buy.common.entity.ResponseData;
 import com.zust.buy.wxpreorder.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,5 +55,22 @@ public class OrderController {
         return ResponseData.ok(result);
     }
 
+    @RequestMapping("/getOne/{id}")
+    public ResponseData getOrderById(@PathVariable("id") Integer id) {
+        Order order = orderService.getOrderById(id);
+        return ResponseData.ok(order);
+    }
+
+    @RequestMapping("/detail/list/{id}")
+    public ResponseData getDetailList(@PathVariable("id") Integer id) {
+        List<OrderDetail> list = orderService.getDetailList(id);
+        return ResponseData.ok(list);
+    }
+
+    @RequestMapping ("/update/{id}/status/{status}")
+    public ResponseData updateStatus(@PathVariable("id") Integer id, @PathVariable("status") String status) {
+        orderService.updateStatus(id, status);
+        return ResponseData.ok();
+    }
 }
 

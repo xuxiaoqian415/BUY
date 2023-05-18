@@ -40,6 +40,8 @@ public class AdminOrderController {
     public ResponseData getOrderList(@RequestBody PageBean pageBean) {
         Map<String, Object> params = new HashMap<>();
         params.put("orderNo", pageBean.getQuery());
+        params.put("status", pageBean.getStatus());
+        params.put("dateValue", pageBean.getDateValue());
         params.put("start", pageBean.getStart());
         params.put("pageSize", pageBean.getPageSize());
         Map<String, Object> result = orderService.getOrderList(params);

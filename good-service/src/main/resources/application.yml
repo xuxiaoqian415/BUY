@@ -28,3 +28,5 @@ mybatis-plus:
 imagesFilePath:
   bigType: D://buy_pics/bigType/
   product: D://buy_pics/product/
+  swiper: D://buy_pics/swiper/
+  product-swiper: D://buy_pics/productSwiper/

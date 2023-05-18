@@ -74,8 +74,13 @@ public class AdminSmallTypeController {
      * @return
      */
     @RequestMapping("/getSelectList")
-    public ResponseData getSelectList() {
-        List<SmallType> list = smallTypeService.list(new QueryWrapper<SmallType>());
+    public ResponseData getSelectList(@RequestParam("bigTypeId") Integer bigTypeId) {
+        List<SmallType> list;
+        if (bigTypeId == 0) {
+            list = smallTypeService.list(new QueryWrapper<SmallType>());
+        } else {
+            list = smallTypeService.list(new QueryWrapper<SmallType>().eq("big_type_id", bigTypeId));
+        }
         return ResponseData.ok(list);
     }
 }

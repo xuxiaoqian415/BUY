@@ -36,12 +36,13 @@ public class GoodsTypeController {
     private IBigTypeService bigTypeService;
 
     @ResponseBody
-    @RequestMapping("/bigType/list/{id}")
+    @RequestMapping("/smallType/list/{id}")
     public List<SmallType> getListByBigTypeId(@PathVariable("id") Integer bigTypeId) {
         List<SmallType> smallTypelist = smallTypeService.list(new QueryWrapper<SmallType>()
                 .eq("big_type_id", bigTypeId));
         for (SmallType smallType : smallTypelist) {
-            List<Product> productList = productService.list(new QueryWrapper<Product>().eq("typeId", smallType.getId()));
+            List<Product> productList = productService.list(new QueryWrapper<Product>()
+                    .eq("typeId", smallType.getId()).eq("deleted", 0));
             smallType.setProductList(productList);
         }
         return smallTypelist;

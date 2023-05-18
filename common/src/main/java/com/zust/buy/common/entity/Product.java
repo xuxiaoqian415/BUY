@@ -1,6 +1,8 @@
 package com.zust.buy.common.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -30,6 +32,7 @@ public class Product extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -62,7 +65,7 @@ public class Product extends BaseEntity {
      * 是否热卖 0-否 1-是
      */
     @TableField("isHot")
-    private String isHot;
+    private Boolean isHot;
 
     /**
      * 是否轮播 0-否 1-是
@@ -118,5 +121,8 @@ public class Product extends BaseEntity {
      */
     @TableField(select = false, exist = false)
     private List<ProductSwiperImage> swiperImageList;
+
+    @TableField(select = false, exist = false)
+    private Integer bigTypeId;
 
 }

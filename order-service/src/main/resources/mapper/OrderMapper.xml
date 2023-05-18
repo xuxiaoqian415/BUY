@@ -9,11 +9,17 @@
         <where>
             o.deleted = 0
             <if test="orderNo != null and orderNo != ''">
-                and order_no like concat('%', #{orderNo}, '%')
+                and o.order_no like concat('%', #{orderNo}, '%')
+            </if>
+            <if test="status != null and status != 0">
+                and o.status = #{status}
+            </if>
+            <if test="dateValue != null and dateValue != ''">
+                and o.delivery_date = #{dateValue}
             </if>
         </where>
         order by o.create_time desc
-        <if test="start != null and pageSize != null">
+        <if test="start != null and start != 0 and pageSize != null and pageSize != 0">
             limit #{start}, #{pageSize}
         </if>
     </select>
@@ -25,6 +31,12 @@
             deleted = 0
             <if test="orderNo != null and orderNo != ''">
                 and order_no like concat('%', #{orderNo}, '%')
+            </if>
+            <if test="status != null and status != 0">
+                and o.status = #{status}
+            </if>
+            <if test="dateValue != null and dateValue != ''">
+                and o.delivery_date = #{dateValue}
             </if>
         </where>
     </select>

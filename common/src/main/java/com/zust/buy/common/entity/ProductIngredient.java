@@ -1,9 +1,9 @@
 package com.zust.buy.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.zust.buy.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -31,10 +31,24 @@ public class ProductIngredient extends BaseEntity {
 
     private Integer ingredientId;
 
+    @TableField(exist = false)
+    private String ingredientName;
+
     /**
      * 一份菜品对应的食材数量
      */
     private Integer number;
 
+    /**
+     * 原料单位
+     */
+    @TableField(exist = false)
+    private String unit;
+
+    /**
+     * 原料描述
+     */
+    @TableField(exist = false)
+    private String description;
 
 }

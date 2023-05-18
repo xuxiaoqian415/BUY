@@ -24,8 +24,8 @@ public interface ProductService {
     @RequestMapping("/product/search")
     List<Product> search(String param);
 
-    @RequestMapping("/type/bigType/list/{id}")
-    List<SmallType> getBigTypeListById(@PathVariable("id") Integer bigTypeId);
+    @RequestMapping("/type/smallType/list/{id}")
+    List<SmallType> getSmallTypeListById(@PathVariable("id") Integer bigTypeId);
 
     @RequestMapping("/type/bigType/list/All")
     List<BigType> getAllBigTypeList();

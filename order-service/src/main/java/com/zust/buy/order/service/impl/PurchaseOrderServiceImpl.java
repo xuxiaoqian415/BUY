@@ -8,7 +8,9 @@ import com.zust.buy.order.service.IPurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,5 +33,20 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
             this.save(item);
             item.setId(null);
         }
+    }
+
+    @Override
+    public Map<String, Object> getPurchaseList(Map<String, Object> params) {
+        List<PurchaseOrder> list = purchaseOrderMapper.getPurchaseList(params);
+        Integer total = purchaseOrderMapper.getTotal(params);
+        Map<String, Object> result = new HashMap<>();
+        result.put("purchaseList", list);
+        result.put("total", total);
+        return result;
+    }
+
+    @Override
+    public List<PurchaseOrder> getListByDate(String date) {
+        return purchaseOrderMapper.getListByDate(date);
     }
 }

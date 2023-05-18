@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zust.buy.good.mapper.ProductIngredientMapper">
 
+    <select id="listByProductId" parameterType="int" resultType="com.zust.buy.common.entity.ProductIngredient">
+        SELECT pi.*, i.name as ingredientName, i.unit, i.description
+        FROM t_product_ingredient pi
+                 LEFT JOIN t_ingredient i ON pi.ingredient_id = i.id
+        WHERE pi.deleted = 0 and pi.product_id = #{productId}
+    </select>
+
+    <update id="addNumber" parameterType="com.zust.buy.common.entity.ProductIngredient">
+        update t_product_ingredient
+        set number = number + #{number}
+        where product_id = #{productId} and ingredient_id = #{ingredientId}
+    </update>
+
 </mapper>

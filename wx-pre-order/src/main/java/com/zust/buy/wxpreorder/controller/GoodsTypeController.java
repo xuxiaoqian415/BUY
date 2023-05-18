@@ -29,7 +29,7 @@ public class GoodsTypeController {
 
     @RequestMapping("/smallType/list/{bigTypeId}")
     public ResponseData getListByBigTypeId(@PathVariable("bigTypeId") Integer bigTypeId) {
-        List<SmallType> smallTypelist = productService.getBigTypeListById(bigTypeId);
+        List<SmallType> smallTypelist = productService.getSmallTypeListById(bigTypeId);
         return ResponseData.ok(smallTypelist);
     }
 

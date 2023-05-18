@@ -3,15 +3,65 @@
 <mapper namespace="com.zust.buy.order.mapper.PurchaseOrderMapper">
 
     <select id="getPurchaseData" resultType="com.zust.buy.common.entity.PurchaseOrder">
-        SELECT pi.ingredient_id, od.main_id as order_id, od.good_num * pi.number as total_num
-        FROM t_order_detail od
-                 LEFT JOIN t_product_ingredient pi ON od.good_id = pi.product_id
-                 LEFT JOIN t_ingredient i ON pi.ingredient_id = i.id
-                 LEFT JOIN t_order o ON od.main_id = o.id
+        SELECT o.id as order_id,
+               i.id as ingredient_id,
+               SUM(od.good_num * pi.number) as total_num
+        FROM t_order o
+            LEFT JOIN t_order_detail od ON o.id = od.main_id
+            LEFT JOIN t_product_ingredient pi ON od.good_id = pi.product_id
+            LEFT JOIN t_ingredient i ON pi.ingredient_id = i.id
         WHERE od.main_id = #{orderId}
           <if test="dressing == false">
               AND i.is_dressing = '0'
           </if>
+        GROUP BY ingredient_id
+    </select>
+
+    <select id="getPurchaseList" resultType="com.zust.buy.common.entity.PurchaseOrder">
+        SELECT po.id, po.ingredient_id, po.order_id, po.total_num,
+               i.`name` as ingredient_name, i.unit, i.description, o.order_no, o.delivery_date
+        FROM t_purchase_order po
+                 LEFT JOIN t_ingredient i ON po.ingredient_id = i.id
+                 LEFT JOIN t_order o ON po.order_id = o.id
+        <where>
+            o.deleted = 0
+            <if test="orderNo != null and orderNo != ''">
+                and o.order_no like concat('%', #{orderNo}, '%')
+            </if>
+            <if test="deliveryDate != null and deliveryDate != ''">
+                and o.delivery_date = #{deliveryDate}
+            </if>
+        </where>
+        order by po.create_time desc
+        <if test="start != null and start != 0 and pageSize != null and pageSize != 0">
+            limit #{start}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getTotal" parameterType="java.util.Map" resultType="int">
+        select count(*)
+        FROM t_purchase_order po
+        LEFT JOIN t_ingredient i ON po.ingredient_id = i.id
+        LEFT JOIN t_order o ON po.order_id = o.id
+        <where>
+            o.deleted = 0
+            <if test="orderNo != null and orderNo != ''">
+                and o.order_no like concat('%', #{orderNo}, '%')
+            </if>
+            <if test="deliveryDate != null and deliveryDate != ''">
+                and o.delivery_date = #{deliveryDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="getListByDate" parameterType="string" resultType="com.zust.buy.common.entity.PurchaseOrder">
+        SELECT po.ingredient_id, SUM(po.total_num) as total_num,
+               i.`name` as ingredient_name, i.unit, i.description, o.order_no, o.delivery_date
+        FROM t_purchase_order po
+            LEFT JOIN t_ingredient i ON po.ingredient_id = i.id
+            LEFT JOIN t_order o ON po.order_id = o.id
+        WHERE o.deleted = 0 and o.delivery_date = #{date}
+        GROUP BY po.ingredient_id
     </select>
 
 </mapper>

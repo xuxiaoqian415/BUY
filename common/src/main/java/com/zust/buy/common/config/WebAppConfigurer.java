@@ -39,8 +39,8 @@ public class WebAppConfigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         String[] patterns = new String[]{
-            "/product/**", "/wx/product/**", "/type/bigType/**",
-            "/admin/user/login", "/wx/user/login", "/wx/user/list",
+            "/product/**", "/wx/product/**", "/type/bigType/**", "/type/smallType/**",
+            "/admin/user/login", "/wx/user/login", "/wx/user/list", "/wx/user/updateStatus/**",
             "/wx/bigType/**", "/wx/smallType/**", "/order/**"
         };
         registry.addInterceptor(sysInterceptor())

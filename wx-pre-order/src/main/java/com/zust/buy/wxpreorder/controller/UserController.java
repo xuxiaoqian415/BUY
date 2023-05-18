@@ -84,4 +84,13 @@ public class UserController {
         result.put("total", pageResult.getTotal());
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping("/updateStatus/{id}/{status}")
+    public void deleteWxUser(@PathVariable("id") Integer id, @PathVariable("status") Integer status) {
+        WxUserInfo user = new WxUserInfo();
+        user.setId(id);
+        user.setDeleted(status);
+        wxUserInfoService.updateById(user);
+    }
 }

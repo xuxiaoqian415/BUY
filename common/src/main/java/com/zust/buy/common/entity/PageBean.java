@@ -1,6 +1,12 @@
 package com.zust.buy.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zust.buy.common.config.CustomDateTimeSerializer;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * 分页 Model类
@@ -37,6 +43,12 @@ public class PageBean {
      * 商品类别ID
      */
     private Integer typeId;
+
+    private String isSwiper;
+
+    private String dateValue;
+
+    private Integer status;
 
     public PageBean() {
     }

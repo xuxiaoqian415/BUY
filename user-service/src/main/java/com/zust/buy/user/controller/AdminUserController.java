@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zust.buy.common.constant.SystemConstant;
 import com.zust.buy.common.entity.PageBean;
 import com.zust.buy.common.entity.ResponseData;
+import com.zust.buy.common.entity.WxUserInfo;
 import com.zust.buy.common.util.JwtUtils;
 import com.zust.buy.common.util.StringUtil;
 import com.zust.buy.common.entity.User;
 import com.zust.buy.user.service.IUserService;
 import com.zust.buy.user.service.WxUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -94,5 +96,10 @@ public class AdminUserController {
         return ResponseData.ok(result);
     }
 
+    @RequestMapping("/updateWxUser/{id}/{status}")
+    public ResponseData deleteWxUser(@PathVariable("id") Integer id, @PathVariable("status") Integer status) {
+        wxUserInfoService.deleteWxUser(id, status);
+        return ResponseData.ok();
+    }
 }
 

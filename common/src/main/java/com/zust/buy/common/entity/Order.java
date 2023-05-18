@@ -81,8 +81,8 @@ public class Order extends BaseEntity {
     /**
      * 预订配送日期
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date deliveryDate;
 
     /**
