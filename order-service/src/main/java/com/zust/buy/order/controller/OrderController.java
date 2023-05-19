@@ -43,7 +43,7 @@ public class OrderController {
     private IPurchaseOrderService purchaseOrderService;
 
     @ResponseBody
-    @RequestMapping("/create")
+    @RequestMapping("/createUserOrder")
     @Transactional
     public String create(@RequestBody Order order, @RequestHeader(value = "token") String token) {
         Claims claims = JwtUtils.validateJWT(token).getClaims();
@@ -53,8 +53,14 @@ public class OrderController {
         String openId = claims.getId();
         order.setUserId(openId);
         String orderNo = orderService.createUserOrder(order);
-        purchaseOrderService.createPurchaseOrder(order);
         return orderNo;
+    }
+
+    @ResponseBody
+    @RequestMapping("/createPurchaseOrder")
+    public void createPurchaseOrder(@RequestParam("orderNo") String orderNo) {
+        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
+        purchaseOrderService.createPurchaseOrder(order);
     }
 
     @ResponseBody
@@ -73,22 +79,35 @@ public class OrderController {
         return resultMap;
     }
 
+    /**
+     * 修改 支付状态
+     * @param orderNo
+     */
     @ResponseBody
-    @RequestMapping("/update")
+    @RequestMapping("/updatePayStatus")
     public void updateStatus(@RequestBody String orderNo) {
         Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
         if (null != order && order.getStatus().equals("1")) {
             order.setPayDate(new Date());
             order.setStatus("2");
+            order.setCreateTime(null);
+            order.setUpdateTime(null);
             orderService.saveOrUpdate(order);
         }
     }
 
     @ResponseBody
     @RequestMapping("/list")
-    public Map<String, Object> list(Integer type, Integer page, Integer pageSize) {
+    public Map<String, Object> list(Integer type, Integer page, Integer pageSize, @RequestHeader(value = "token") String token) {
+        Claims claims = JwtUtils.validateJWT(token).getClaims();
+        if (null == claims) {
+            return null;
+        }
+        String openId = claims.getId();
         IPage<Order> orderPage = new Page<>(page, pageSize);
-        QueryWrapper<Order> queryWrapper = new QueryWrapper<Order>().orderByDesc("id").eq("deleted", 0);
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<Order>()
+                .eq("user_id", openId)
+                .orderByDesc("id").eq("deleted", 0);
         if (type == 0) {
             orderPage = orderService.page(orderPage, queryWrapper);
         } else if (type == 3) {
@@ -114,7 +133,7 @@ public class OrderController {
     @ResponseBody
     @RequestMapping("/detail/list/{id}")
     public List<OrderDetail> getDetailList(@PathVariable("id") Integer id) {
-        return orderDetailService.list(new QueryWrapper<OrderDetail>().eq("main_id", id));
+        return orderDetailService.list(new QueryWrapper<OrderDetail>().eq("main_id", id).eq("deleted", 0));
     }
 
     @ResponseBody

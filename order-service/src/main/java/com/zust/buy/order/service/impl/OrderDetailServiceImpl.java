@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zust.buy.common.entity.OrderDetail;
 import com.zust.buy.order.mapper.OrderDetailMapper;
 import com.zust.buy.order.service.IOrderDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, OrderDetail> implements IOrderDetailService {
 
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
+
+    @Override
+    public void deleteByMainId(Integer orderId) {
+        orderDetailMapper.deleteByMainId(orderId);
+    }
 }

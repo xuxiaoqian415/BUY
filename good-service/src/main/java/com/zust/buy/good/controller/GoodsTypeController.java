@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * <p>
- *  小类表 前端控制器
+ *  商品类别 前端控制器
  * </p>
  *
  * @author xuxiaoqian
@@ -39,7 +39,7 @@ public class GoodsTypeController {
     @RequestMapping("/smallType/list/{id}")
     public List<SmallType> getListByBigTypeId(@PathVariable("id") Integer bigTypeId) {
         List<SmallType> smallTypelist = smallTypeService.list(new QueryWrapper<SmallType>()
-                .eq("big_type_id", bigTypeId));
+                .eq("big_type_id", bigTypeId).eq("deleted", 0));
         for (SmallType smallType : smallTypelist) {
             List<Product> productList = productService.list(new QueryWrapper<Product>()
                     .eq("typeId", smallType.getId()).eq("deleted", 0));
@@ -51,7 +51,7 @@ public class GoodsTypeController {
     @ResponseBody
     @RequestMapping("/bigType/list/All")
     public List<BigType> getAll() {
-        List<BigType> list = bigTypeService.list(new QueryWrapper<BigType>());
+        List<BigType> list = bigTypeService.list(new QueryWrapper<BigType>().eq("deleted", 0));
         return list;
     }
 }

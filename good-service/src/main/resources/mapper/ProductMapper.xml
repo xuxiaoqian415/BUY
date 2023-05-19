@@ -26,7 +26,7 @@
                 p.create_time desc
             </otherwise>
         </choose>
-        <if test="start != null and start != 0 and pageSize != null and pageSize != 0">
+        <if test="start != null and pageSize != null and pageSize != 0">
             limit #{start}, #{pageSize}
         </if>
     </select>

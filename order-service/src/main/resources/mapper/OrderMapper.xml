@@ -19,7 +19,7 @@
             </if>
         </where>
         order by o.create_time desc
-        <if test="start != null and start != 0 and pageSize != null and pageSize != 0">
+        <if test="start != null and pageSize != null and pageSize != 0">
             limit #{start}, #{pageSize}
         </if>
     </select>
@@ -28,9 +28,9 @@
         select count(*)
         from t_order o
         <where>
-            deleted = 0
+            o.deleted = 0
             <if test="orderNo != null and orderNo != ''">
-                and order_no like concat('%', #{orderNo}, '%')
+                and o.order_no like concat('%', #{orderNo}, '%')
             </if>
             <if test="status != null and status != 0">
                 and o.status = #{status}

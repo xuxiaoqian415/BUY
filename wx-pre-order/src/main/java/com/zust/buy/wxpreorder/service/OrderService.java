@@ -12,17 +12,20 @@ import java.util.Map;
 @FeignClient("order-service")
 public interface OrderService {
 
-    @RequestMapping("/order/create")
+    @RequestMapping("/order/createUserOrder")
     String create(@RequestBody Order order, @RequestHeader(value = "token") String token);
+
+    @RequestMapping("/order/createPurchaseOrder")
+    void createPurchaseOrder(@RequestParam("orderNo") String orderNo);
 
     @RequestMapping("/order/preparePay")
     Map<String, Object> preparePay(@RequestBody String orderNo);
 
-    @RequestMapping("/order/update")
+    @RequestMapping("/order/updatePayStatus")
     void updateStatus(@RequestBody String orderNo);
 
     @RequestMapping("/order/list")
-    Map<String, Object> list(@RequestParam Integer type, @RequestParam Integer page, @RequestParam Integer pageSize);
+    Map<String, Object> list(@RequestParam Integer type, @RequestParam Integer page, @RequestParam Integer pageSize, @RequestHeader(value = "token") String token);
 
     @RequestMapping("/order/getOne/{id}")
     Order getOrderById(@PathVariable("id") Integer id);

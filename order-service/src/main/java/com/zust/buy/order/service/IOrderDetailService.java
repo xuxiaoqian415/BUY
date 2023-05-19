@@ -13,4 +13,6 @@ import com.zust.buy.common.entity.OrderDetail;
  */
 public interface IOrderDetailService extends IService<OrderDetail> {
 
+    void deleteByMainId(Integer orderId);
+
 }

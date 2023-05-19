@@ -37,21 +37,30 @@ public class OrderController {
         return ResponseData.ok(resultMap);
     }
 
+    @RequestMapping("/createPurchaseOrder")
+    public ResponseData createPurchaseOrder(@RequestParam("orderNo") String orderNo) {
+        orderService.createPurchaseOrder(orderNo);
+        return ResponseData.ok();
+    }
+
     @RequestMapping("/preparePay")
     public ResponseData preparePay(@RequestBody String orderNo) {
         Map<String, Object> resultMap = orderService.preparePay(orderNo);
         return ResponseData.ok(resultMap);
     }
 
-    @RequestMapping("/update")
-    public ResponseData updateStatus(@RequestBody String orderNo) {
+    @RequestMapping("/updatePayStatus")
+    public ResponseData updatePayStatus(@RequestBody String orderNo) {
         orderService.updateStatus(orderNo);
         return ResponseData.ok();
     }
 
     @RequestMapping("/list")
-    public ResponseData list(Integer type, Integer page, Integer pageSize) {
-        Map<String, Object> result = orderService.list(type, page, pageSize);
+    public ResponseData list(Integer type, Integer page, Integer pageSize, @RequestHeader(value = "token") String token) {
+        Map<String, Object> result = orderService.list(type, page, pageSize, token);
+        if (null == result) {
+            return ResponseData.error("token不存在");
+        }
         return ResponseData.ok(result);
     }
 

@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zust.buy.order.mapper.OrderDetailMapper">
 
+    <update id="deleteByMainId" parameterType="int">
+        update t_order_detail
+        set deleted = 1
+        where main_id = #{orderId}
+    </update>
 </mapper>

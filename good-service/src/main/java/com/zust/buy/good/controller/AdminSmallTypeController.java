@@ -3,6 +3,7 @@ package com.zust.buy.good.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zust.buy.common.entity.*;
 import com.zust.buy.good.service.IBigTypeService;
+import com.zust.buy.good.service.IProductService;
 import com.zust.buy.good.service.ISmallTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,8 @@ public class AdminSmallTypeController {
     private ISmallTypeService smallTypeService;
     @Autowired
     private IBigTypeService bigTypeService;
+    @Autowired
+    private IProductService productService;
 
     /**
      * 根据条件分页查询商品小类
@@ -38,6 +41,10 @@ public class AdminSmallTypeController {
 
     @RequestMapping("/delete/{id}")
     public ResponseData delete(@PathVariable("id") Integer id) {
+        int count = productService.count(new QueryWrapper<Product>().eq("typeId", id).eq("deleted", 0));
+        if (count > 0) {
+            return ResponseData.error("该小类下有关联的菜品，不能删除！");
+        }
         SmallType entity = new SmallType();
         entity.setId(id);
         entity.setDeleted(1);
@@ -76,10 +83,11 @@ public class AdminSmallTypeController {
     @RequestMapping("/getSelectList")
     public ResponseData getSelectList(@RequestParam("bigTypeId") Integer bigTypeId) {
         List<SmallType> list;
+        QueryWrapper<SmallType> queryWrapper = new QueryWrapper<SmallType>().eq("deleted", 0);
         if (bigTypeId == 0) {
-            list = smallTypeService.list(new QueryWrapper<SmallType>());
+            list = smallTypeService.list(queryWrapper);
         } else {
-            list = smallTypeService.list(new QueryWrapper<SmallType>().eq("big_type_id", bigTypeId));
+            list = smallTypeService.list(queryWrapper.eq("big_type_id", bigTypeId));
         }
         return ResponseData.ok(list);
     }

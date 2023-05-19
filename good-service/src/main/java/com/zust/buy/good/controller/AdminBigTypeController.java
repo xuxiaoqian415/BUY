@@ -40,7 +40,8 @@ public class AdminBigTypeController {
     public ResponseData getBigTypeList(@RequestBody PageBean pageBean) {
         String query = pageBean.getQuery().trim();
         Page<BigType> page = new Page<>(pageBean.getPageNum(), pageBean.getPageSize());
-        IPage<BigType> pageResult = bigTypeService.page(page, new QueryWrapper<BigType>().like(!StringUtil.isEmpty(query), "name", query));
+        IPage<BigType> pageResult = bigTypeService.page(page, new QueryWrapper<BigType>()
+                .like(!StringUtil.isEmpty(query), "name", query).eq("deleted", 0));
         Map<String, Object> result = new HashMap<>();
         result.put("bigTypeList", pageResult.getRecords());
         result.put("total", pageResult.getTotal());
@@ -77,11 +78,15 @@ public class AdminBigTypeController {
      */
     @RequestMapping("/delete/{id}")
     public ResponseData delete(@PathVariable("id") Integer id) {
-        int count = smallTypeService.count(new QueryWrapper<SmallType>().eq("big_type_id", id));
+        int count = smallTypeService.count(new QueryWrapper<SmallType>()
+                .eq("big_type_id", id).eq("deleted", 0));
         if (count > 0) {
             return ResponseData.error("该大类下有小类信息，不能删除！");
         }
-        bigTypeService.removeById(id);
+        BigType bigType = new BigType();
+        bigType.setId(id);
+        bigType.setDeleted(1);
+        bigTypeService.updateById(bigType);
         return ResponseData.ok();
     }
 
@@ -118,7 +123,7 @@ public class AdminBigTypeController {
      */
     @RequestMapping("/getSelectList")
     public ResponseData getSelectList() {
-        List<BigType> list = bigTypeService.list(new QueryWrapper<BigType>());
+        List<BigType> list = bigTypeService.list(new QueryWrapper<BigType>().eq("deleted", 0));
         return ResponseData.ok(list);
     }
 

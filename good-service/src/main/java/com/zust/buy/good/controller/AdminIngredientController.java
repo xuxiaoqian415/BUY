@@ -32,7 +32,9 @@ public class AdminIngredientController {
     public ResponseData getIngredientList(@RequestBody PageBean pageBean) {
         String query = pageBean.getQuery().trim();
         Page<Ingredient> page = new Page<>(pageBean.getPageNum(), pageBean.getPageSize());
-        IPage<Ingredient> pageResult = ingredientService.page(page, new QueryWrapper<Ingredient>().like(!StringUtil.isEmpty(query), "name", query));
+        IPage<Ingredient> pageResult = ingredientService.page(page, new QueryWrapper<Ingredient>()
+                .like(!StringUtil.isEmpty(query), "name", query)
+                .eq("deleted", 0));
         Map<String, Object> result = new HashMap<>();
         result.put("ingredientList", pageResult.getRecords());
         result.put("total", pageResult.getTotal());
@@ -46,11 +48,15 @@ public class AdminIngredientController {
      */
     @RequestMapping("/delete/{id}")
     public ResponseData delete(@PathVariable("id") Integer id) {
-        int count = productIngredientService.count(new QueryWrapper<ProductIngredient>().eq("ingredient_id", id));
+        int count = productIngredientService.count(new QueryWrapper<ProductIngredient>()
+                .eq("ingredient_id", id));
         if (count > 0) {
             return ResponseData.error("该原料有关联的菜品，不能删除！");
         }
-        ingredientService.removeById(id);
+        Ingredient entity = new Ingredient();
+        entity.setId(id);
+        entity.setDeleted(1);
+        ingredientService.updateById(entity);
         return ResponseData.ok();
     }
 
@@ -105,7 +111,7 @@ public class AdminIngredientController {
      */
     @RequestMapping("/getSelectList")
     public ResponseData getSelectList() {
-        List<Ingredient> list = ingredientService.list(new QueryWrapper<>());
+        List<Ingredient> list = ingredientService.list(new QueryWrapper<Ingredient>().eq("deleted", 0));
         return ResponseData.ok(list);
     }
 

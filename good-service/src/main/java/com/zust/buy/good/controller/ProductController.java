@@ -37,7 +37,7 @@ public class ProductController {
     @RequestMapping("/getSwiper")
     public List<Product> getSwiper() {
         List<Product> list = productService.list(new QueryWrapper<Product>()
-                .eq("isSwiper", "1")
+                .eq("isSwiper", "1").eq("deleted", 0)
                 .orderByAsc("swiperSort"));
         return list;
     }
@@ -61,7 +61,7 @@ public class ProductController {
         String s = new String(steps.getBytes(StandardCharsets.US_ASCII), StandardCharsets.UTF_8);
 
         List<ProductSwiperImage> swiperImageList = productSwiperService.list(new QueryWrapper<ProductSwiperImage>()
-                .eq("productId", id).eq("deleted", 0)
+                .eq("productId", id)
                 .orderByAsc("sort"));
         product.setSwiperImageList(swiperImageList);
         return product;
@@ -70,7 +70,8 @@ public class ProductController {
     @ResponseBody
     @RequestMapping("/search")
     public List<Product> search(String param) {
-        List<Product> list = productService.list(new QueryWrapper<Product>().like("name", param));
+        List<Product> list = productService.list(new QueryWrapper<Product>()
+                .like("name", param).eq("deleted", 0));
         return list;
     }
 
