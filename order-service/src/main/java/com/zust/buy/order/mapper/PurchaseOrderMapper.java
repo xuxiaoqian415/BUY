@@ -27,4 +27,6 @@ public interface PurchaseOrderMapper extends BaseMapper<PurchaseOrder> {
 
     List<PurchaseOrder> getListByDate(@Param("date") String date);
 
+    void deleteByDeliveryDate(@Param("deliveryDate") String deliveryDate);
+
 }

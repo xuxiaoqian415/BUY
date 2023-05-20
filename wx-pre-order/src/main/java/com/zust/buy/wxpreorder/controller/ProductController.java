@@ -4,9 +4,7 @@ import com.zust.buy.common.entity.ResponseData;
 import com.zust.buy.common.entity.Product;
 import com.zust.buy.wxpreorder.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class ProductController {
     }
 
     @RequestMapping("/search")
-    public ResponseData search(String param) {
+    public ResponseData search(@RequestParam("param") String param) {
         List<Product> list = productService.search(param);
         return ResponseData.ok(list);
     }

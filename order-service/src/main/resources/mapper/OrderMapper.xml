@@ -40,4 +40,11 @@
             </if>
         </where>
     </select>
+
+    <update id="updateToPurchased" parameterType="string">
+        update t_order o
+        set o.status = '7'
+        where o.status = '2' and delivery_date = #{deliveryDate}
+    </update>
+
 </mapper>

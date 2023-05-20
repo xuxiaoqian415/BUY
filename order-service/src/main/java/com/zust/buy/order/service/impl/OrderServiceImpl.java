@@ -53,4 +53,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return order.getOrderNo();
     }
 
+    @Override
+    public void updateToPurchased(String deliveryDate) {
+        orderMapper.updateToPurchased(deliveryDate);
+    }
 }

@@ -23,4 +23,6 @@ public interface IPurchaseOrderService extends IService<PurchaseOrder> {
 
     List<PurchaseOrder> getListByDate(String date);
 
+    void deleteByDeliveryDate(String deliveryDate);
+
 }

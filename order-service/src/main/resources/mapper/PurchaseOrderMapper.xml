@@ -24,7 +24,7 @@
                  LEFT JOIN t_ingredient i ON po.ingredient_id = i.id
                  LEFT JOIN t_order o ON po.order_id = o.id
         <where>
-            o.deleted = 0
+            o.deleted = 0 and po.deleted = 0
             <if test="orderNo != null and orderNo != ''">
                 and o.order_no like concat('%', #{orderNo}, '%')
             </if>
@@ -44,7 +44,7 @@
         LEFT JOIN t_ingredient i ON po.ingredient_id = i.id
         LEFT JOIN t_order o ON po.order_id = o.id
         <where>
-            o.deleted = 0
+            o.deleted = 0 and po.deleted = 0
             <if test="orderNo != null and orderNo != ''">
                 and o.order_no like concat('%', #{orderNo}, '%')
             </if>
@@ -60,8 +60,16 @@
         FROM t_purchase_order po
             LEFT JOIN t_ingredient i ON po.ingredient_id = i.id
             LEFT JOIN t_order o ON po.order_id = o.id
-        WHERE o.deleted = 0 and o.delivery_date = #{date}
+        WHERE o.deleted = 0  and po.deleted = 0 and o.delivery_date = #{date}
         GROUP BY po.ingredient_id
     </select>
+
+    <update id="deleteByDeliveryDate" parameterType="string">
+        update t_purchase_order po
+        set po.deleted = 1
+        where po.order_id in (
+            select id from t_order where delivery_date =#{deliveryDate}
+        )
+    </update>
 
 </mapper>

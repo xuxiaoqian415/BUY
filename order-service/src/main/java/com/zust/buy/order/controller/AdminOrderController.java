@@ -8,6 +8,7 @@ import com.zust.buy.order.service.IPurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class AdminOrderController {
     public ResponseData delete(@PathVariable("id") Integer id) {
         String status = orderService.getById(id).getStatus();
         // 判断类型
-        if ("2".equals(status) || "3".equals(status) || "5".equals(status)) {
+        if ("2".equals(status) || "3".equals(status) || "5".equals(status) || "7".equals(status)) {
             return ResponseData.error("该状态下订单不能删除！");
         }
         Order entity = new Order();

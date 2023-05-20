@@ -49,4 +49,9 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
     public List<PurchaseOrder> getListByDate(String date) {
         return purchaseOrderMapper.getListByDate(date);
     }
+
+    @Override
+    public void deleteByDeliveryDate(String deliveryDate) {
+        purchaseOrderMapper.deleteByDeliveryDate(deliveryDate);
+    }
 }

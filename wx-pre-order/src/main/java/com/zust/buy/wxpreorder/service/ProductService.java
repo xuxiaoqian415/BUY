@@ -6,6 +6,7 @@ import com.zust.buy.common.entity.SmallType;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface ProductService {
     Product getDetailById(@PathVariable("id") Integer id);
 
     @RequestMapping("/product/search")
-    List<Product> search(String param);
+    List<Product> search(@RequestParam("param") String param);
 
     @RequestMapping("/type/smallType/list/{id}")
     List<SmallType> getSmallTypeListById(@PathVariable("id") Integer bigTypeId);

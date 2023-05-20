@@ -8,10 +8,7 @@ import com.zust.buy.common.entity.ProductSwiperImage;
 import com.zust.buy.good.service.IProductService;
 import com.zust.buy.good.service.IProductSwiperService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -69,7 +66,7 @@ public class ProductController {
 
     @ResponseBody
     @RequestMapping("/search")
-    public List<Product> search(String param) {
+    public List<Product> search(@RequestParam("param") String param) {
         List<Product> list = productService.list(new QueryWrapper<Product>()
                 .like("name", param).eq("deleted", 0));
         return list;
